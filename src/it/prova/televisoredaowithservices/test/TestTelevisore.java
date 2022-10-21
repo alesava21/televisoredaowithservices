@@ -30,7 +30,7 @@ public class TestTelevisore {
 			testFindTelevisoreConPiuPollici(televisoreService);
 
 			testFindMarcaTelevisoriProdottiNeiUltimiSeiMesi(televisoreService);
-			
+
 			testDeleteTelevisore(televisoreService);
 			System.out.println("In tabella ci sono " + televisoreService.listAll().size() + " elementi.");
 
