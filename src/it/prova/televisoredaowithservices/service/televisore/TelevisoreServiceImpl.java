@@ -153,37 +153,34 @@ public class TelevisoreServiceImpl implements TelevisoreService {
 		return listaTelevisori;	}
 
 	@Override
-	public List<Televisore> findTelevisoreConPiuPollici(int pollici) throws Exception {
-		List<Televisore> listaTelevisori = new ArrayList<Televisore>();
+	public Televisore findTelevisoreConPiuPollici() throws Exception {
+		// TODO Auto-generated method stub
+				Televisore result = null;
+				try (Connection connection = MyConnection.getConnection(Constants.DRIVER_NAME, Constants.CONNECTION_URL)) {
 
-		try (Connection connection = MyConnection.getConnection(Constants.DRIVER_NAME, Constants.CONNECTION_URL)) {
+					televisoreDao.setConnection(connection);
+					result = televisoreDao.findTelevisoreConPiuPollici();
 
-			televisoreDao.setConnection(connection);
-
-			listaTelevisori = televisoreDao.findTelevisoreConPiuPollici(pollici);
-
-		} catch (Exception e) {
-			e.printStackTrace();
-			throw e;
-		}
-		return listaTelevisori;
+				} catch (Exception e) {
+					e.printStackTrace();
+					throw e;
+				}
+				return result;
 	}
 
 	@Override
-	public List<Televisore> findMarcaTelevisoriProdottiNeiUltimiSeiMesi(Date dataSeiMesi) throws Exception {
-		List<Televisore> listaTelevisori = new ArrayList<Televisore>();
-
+	public List<String> findMarcaTelevisoriProdottiNeiUltimiSeiMesi(Date seiMesi) throws Exception {
+		List<String> result = new ArrayList<String>();
 		try (Connection connection = MyConnection.getConnection(Constants.DRIVER_NAME, Constants.CONNECTION_URL)) {
 
 			televisoreDao.setConnection(connection);
-
-			listaTelevisori = televisoreDao.findMarcaTelevisoriProdottiNeiUltimiSeiMesi(dataSeiMesi);
+			result = televisoreDao.findMarcaTelevisoriProdottiNeiUltimiSeiMesi(seiMesi);
 
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw e;
 		}
-		return listaTelevisori;
+		return result;
 	}
 
 }

@@ -211,7 +211,8 @@ public class TelevisoreDaoImpl extends AbstractMySQLDAO implements TelevisoreDao
 		List<Televisore> listaTelevisori = new ArrayList<Televisore>();
 		Televisore temp = null;
 		
-		try (PreparedStatement ps= connection.prepareStatement("select * from televisore where dataproduzione > ? and dataproduzione < ?;")){
+		try (PreparedStatement ps= connection.prepareStatement(
+				"select * from televisore where dataproduzione > ? and dataproduzione < ?;")){
 			ps.setDate(1, new java.sql.Date(primaData.getTime()));
 			ps.setDate(2, new java.sql.Date(secondaData.getTime()));
 			
@@ -236,15 +237,55 @@ public class TelevisoreDaoImpl extends AbstractMySQLDAO implements TelevisoreDao
 	}
 
 	@Override
-	public List<Televisore> findTelevisoreConPiuPollici(int pollici) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+	public List<String> findMarcaTelevisoriProdottiNeiUltimiSeiMesi(Date seiMesi) throws Exception {
+		if (isNotActive())
+			throw new Exception("Connessione non attiva. Impossibile effettuare operazioni DAO.");
+
+		List<String> listaTelevisori = new ArrayList<String>();
+		String temp = null;
+
+		try (Statement ps = connection.createStatement(); 
+				ResultSet rs = ps.executeQuery(
+						"select distinct marca as m from televisore where dataproduzione >= date_sub(current_date(), interval 6 month)")) {
+
+			while (rs.next()) {
+				temp = rs.getString("m");
+				listaTelevisori.add(temp);
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
+		return listaTelevisori;
 	}
 
 	@Override
-	public List<Televisore> findMarcaTelevisoriProdottiNeiUltimiSeiMesi(Date dataSeiMesi) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+	public Televisore findTelevisoreConPiuPollici() throws Exception {
+		if (isNotActive())
+			throw new Exception("Connessione non attiva. Impossibile effettuare operazioni DAO.");
+
+		Televisore televisore = null;
+
+		try (Statement ps = connection.createStatement(); 
+				ResultSet rs = ps.executeQuery(
+						"select * from televisore t inner join (select id, max(pollici) max from televisore group by id) b on b.max = t.pollici and b.id = t.id limit 1 ")) {
+
+			if (rs.next()) {
+				televisore = new Televisore();
+				televisore.setMarca(rs.getString("marca"));
+				televisore.setModello(rs.getString("modello"));
+				televisore.setPollici(rs.getInt("pollici"));
+				televisore.setDataProduzione(rs.getDate("dataproduzione"));
+				televisore.setId(rs.getLong("id"));
+			}
+			
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
+		return televisore;
 	}
 
 }
