@@ -25,7 +25,7 @@ public class TelevisoreDaoImpl extends AbstractMySQLDAO implements TelevisoreDao
 
 		List<Televisore> result = new ArrayList<Televisore>();
 
-		try (Statement ps = connection.createStatement(); ResultSet rs = ps.executeQuery("seelct * from televisore")) {
+		try (Statement ps = connection.createStatement(); ResultSet rs = ps.executeQuery("select * from televisore")) {
 
 			while (rs.next()) {
 				Televisore temp = new Televisore();
@@ -97,6 +97,7 @@ public class TelevisoreDaoImpl extends AbstractMySQLDAO implements TelevisoreDao
 			ps.setString(2, input.getModello());
 			ps.setInt(3, input.getPollici());
 			ps.setDate(4, new java.sql.Date(input.getDataProduzione().getTime()));
+			ps.setLong(5, input.getId());
 			result = ps.executeUpdate();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -159,7 +160,7 @@ public class TelevisoreDaoImpl extends AbstractMySQLDAO implements TelevisoreDao
 
 		List<Televisore> result = new ArrayList<Televisore>();
 
-		String query = "select * from televisore where  1=1;";
+		String query = "select * from televisore where 1=1;";
 		if (input.getMarca() != null && input.getMarca().isBlank()) {
 			query += " and marca like '" + input.getMarca() + "%' ";
 
@@ -170,7 +171,7 @@ public class TelevisoreDaoImpl extends AbstractMySQLDAO implements TelevisoreDao
 		}
 
 		if (input.getPollici() != 0) {
-			query += "and pollici > '" + input.getPollici() + "'";
+			query += "and pollici > " + input.getPollici() + "";
 
 		}
 		if (input.getDataProduzione() != null) {
@@ -207,10 +208,10 @@ public class TelevisoreDaoImpl extends AbstractMySQLDAO implements TelevisoreDao
 		if (primaData == null || secondaData == null)
 			throw new Exception("Valore di input non ammesso.");
 		
-		List<Televisore> listatelevisori = new ArrayList<Televisore>();
+		List<Televisore> listaTelevisori = new ArrayList<Televisore>();
 		Televisore temp = null;
 		
-		try (PreparedStatement ps= connection.prepareStatement("select * from lavoratore where dataproduzione between ? and ?;")){
+		try (PreparedStatement ps= connection.prepareStatement("select * from televisore where dataproduzione > ? and dataproduzione < ?;")){
 			ps.setDate(1, new java.sql.Date(primaData.getTime()));
 			ps.setDate(2, new java.sql.Date(secondaData.getTime()));
 			
@@ -223,7 +224,7 @@ public class TelevisoreDaoImpl extends AbstractMySQLDAO implements TelevisoreDao
 					temp.setModello(rs.getString("modello"));
 					temp.setPollici(rs.getInt("pollici"));
 					temp.setDataProduzione(rs.getDate("dataproduzione"));
-					listatelevisori.add(temp);
+					listaTelevisori.add(temp);
 				}
 				
 			} 
@@ -231,7 +232,7 @@ public class TelevisoreDaoImpl extends AbstractMySQLDAO implements TelevisoreDao
 			e.printStackTrace();
 			throw e;
 		}
-		return listatelevisori;
+		return listaTelevisori;
 	}
 
 	@Override

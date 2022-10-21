@@ -99,7 +99,7 @@ public class TelevisoreServiceImpl implements TelevisoreService {
 
 	@Override
 	public int rimuovi(Televisore input) throws Exception {
-		if (input == null || input.getId() == null || input.getId() < 1)
+		if (input == null)
 			throw new Exception("Valore di input non ammesso.");
 
 		int result = 0;

@@ -29,4 +29,5 @@ public interface TelevisoreService {
 
 	public List<Televisore> findMarcaTelevisoriProdottiNeiUltimiSeiMesi(Date dataSeiMesi) throws Exception;
 
+
 }
