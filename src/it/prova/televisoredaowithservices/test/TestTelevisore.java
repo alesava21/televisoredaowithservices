@@ -81,12 +81,12 @@ public class TestTelevisore {
 		List<Televisore> listaTelevisori = televisoreService.listAll();
 
 		if (listaTelevisori.isEmpty()) {
-			throw new RuntimeException("testRimozioneUser FAILED ");
+			throw new RuntimeException("testDeleteTelevisore FAILED ");
 		}
 		int result = televisoreService.rimuovi(listaTelevisori.get(0));
 
 		if (result < 1) {
-			throw new RuntimeException("testDeleteImpiegato : FAILED, nessun record e' stato eliminato");
+			throw new RuntimeException("testDeleteTelevisore : FAILED, nessun record e' stato eliminato");
 
 		}
 		System.out.println(".......testDeleteTelevisore PASSED.............");
