@@ -16,21 +16,28 @@ public class TestTelevisore {
 
 			System.out.println("In tabella ci sono " + televisoreService.listAll().size() + " elementi.");
 
+			//-----------------------------------------------------------------------------//
 			testInsertNuovoTelevisore(televisoreService);
 			System.out.println("In tabella ci sono " + televisoreService.listAll().size() + " elementi.");
 
+			//-----------------------------------------------------------------------------//
 			testUpdateTelevisore(televisoreService);
 			System.out.println("In tabella ci sono " + televisoreService.listAll().size() + " elementi.");
 
+			//-----------------------------------------------------------------------------//
 			testFindByExample(televisoreService);
-
+			
+			//-----------------------------------------------------------------------------//
 			testTelevisoreIntervalloDate(televisoreService);
 			System.out.println("In tabella ci sono " + televisoreService.listAll().size() + " elementi.");
 
+			//-----------------------------------------------------------------------------//
 			testFindTelevisoreConPiuPollici(televisoreService);
 
+			//-----------------------------------------------------------------------------//
 			testFindMarcaTelevisoriProdottiNeiUltimiSeiMesi(televisoreService);
 
+			//-----------------------------------------------------------------------------//
 			testDeleteTelevisore(televisoreService);
 			System.out.println("In tabella ci sono " + televisoreService.listAll().size() + " elementi.");
 
@@ -41,7 +48,7 @@ public class TestTelevisore {
 
 	private static void testInsertNuovoTelevisore(TelevisoreService televisoreService) throws Exception {
 		System.out.println(".......testInsertNuovoTelevisore inizio.............");
-		Date dataInput = new SimpleDateFormat("dd-MM-yyyy").parse("01-01-2021");
+		Date dataInput = new SimpleDateFormat("dd-MM-yyyy").parse("01-05-2021");
 		Televisore newTelevisoreInstance = new Televisore("sony", "test", 42, dataInput);
 
 		if (televisoreService.inserisciNuovo(newTelevisoreInstance) != 1) {
@@ -51,7 +58,7 @@ public class TestTelevisore {
 	}
 
 	private static void testUpdateTelevisore(TelevisoreService televisoreService) throws Exception {
-		Date dataInput = new SimpleDateFormat("dd-MM-yyyy").parse("01-01-2021");
+		Date dataInput = new SimpleDateFormat("dd-MM-yyyy").parse("01-05-2021");
 		List<Televisore> listaTelevisori = televisoreService.listAll();
 		if (listaTelevisori.isEmpty()) {
 			throw new RuntimeException("testUpdateTelevisore FAILED ");
@@ -137,13 +144,13 @@ public class TestTelevisore {
 	private static void testFindTelevisoreConPiuPollici(TelevisoreService televisoreService) throws Exception {
 		// TODO Auto-generated method stub
 
-		System.out.println(".......testFindLargestTelevisore inizio.............");
+		System.out.println(".......testFindTelevisoreConPiuPollici inizio.............");
 
 		Televisore televisoreGrande = televisoreService.findTelevisoreConPiuPollici();
 
 		System.out.println(televisoreGrande);
 
-		System.out.println(".......testVoglioIlTelevisorePiuGrande fine.............");
+		System.out.println(".......testFindTelevisoreConPiuPollici fine.............");
 
 	}
 

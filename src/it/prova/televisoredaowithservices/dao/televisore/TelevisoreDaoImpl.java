@@ -269,7 +269,7 @@ public class TelevisoreDaoImpl extends AbstractMySQLDAO implements TelevisoreDao
 
 		try (Statement ps = connection.createStatement(); 
 				ResultSet rs = ps.executeQuery(
-						"select * from televisore t inner join (select id, max(pollici) max from televisore group by id) b on b.max = t.pollici and b.id = t.id limit 1 ")) {
+						"select * from televisore where pollici=(select max(pollici)from televisore);")) {
 
 			if (rs.next()) {
 				televisore = new Televisore();
